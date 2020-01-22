@@ -1,0 +1,6 @@
+{{ etcd_work_dir }}/bin/etcdctl \
+--ca-file={{ etcd_work_dir }}/ssl/ca.pem \
+--cert-file={{ etcd_work_dir }}/ssl/server.pem \
+--key-file={{ etcd_work_dir }}/ssl/server-key.pem \
+--endpoints={% for host in groups['etcd'] %}https://{{ hostvars[host].inventory_hostname }}:2379{% if not loop.last %},{% endif %}{% endfor %} \
+cluster-health
